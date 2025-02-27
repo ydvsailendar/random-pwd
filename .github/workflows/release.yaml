@@ -19,7 +19,7 @@ jobs:
 
       - name: Determine next version
         id: bump_version
-        shell: bash
+        shell: sh
         run: |
           VERSION=${{ env.VERSION }}
           echo "Current Version: $VERSION"
