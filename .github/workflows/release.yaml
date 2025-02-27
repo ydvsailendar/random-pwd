@@ -22,15 +22,22 @@ jobs:
         run: |
           VERSION=${{ env.VERSION }}
           echo "Current Version: $VERSION"
+
           # Extract major, minor, patch from version
           IFS='.' read -r MAJOR MINOR PATCH <<<"${VERSION#v}"
 
+          # Debug output for the parsed version values
+          echo "MAJOR: $MAJOR, MINOR: $MINOR, PATCH: $PATCH"
+
           # Check commit message for version type and bump accordingly
-          if [[ "${{ github.event.head_commit.message }}" == *"# major"* ]]; then
+          COMMIT_MESSAGE="${{ github.event.head_commit.message }}"
+          echo "Commit Message: $COMMIT_MESSAGE"
+
+          if [[ "$COMMIT_MESSAGE" == *"# major"* ]]; then
             ((MAJOR++))
             MINOR=0
             PATCH=0
-          elif [[ "${{ github.event.head_commit.message }}" == *"# minor"* ]]; then
+          elif [[ "$COMMIT_MESSAGE" == *"# minor"* ]]; then
             ((MINOR++))
             PATCH=0
           else
