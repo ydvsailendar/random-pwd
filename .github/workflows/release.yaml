@@ -29,16 +29,20 @@ jobs:
           # Debug output for the parsed version values
           echo "MAJOR: $MAJOR, MINOR: $MINOR, PATCH: $PATCH"
 
-          # Check commit message for version type and bump accordingly
-          COMMIT_MESSAGE="AL-2023 # major: create initial version of random password module"
-          echo "Commit Message: $COMMIT_MESSAGE"
-
           # Ensure proper assignment of variables if not set
           if [ -z "$MAJOR" ]; then MAJOR=0; fi
           if [ -z "$MINOR" ]; then MINOR=0; fi
           if [ -z "$PATCH" ]; then PATCH=0; fi
 
-          # Check if commit message contains # major, # minor, or # patch
+          # Convert variables to integers (to avoid errors in arithmetic)
+          MAJOR=$((MAJOR))
+          MINOR=$((MINOR))
+          PATCH=$((PATCH))
+
+          # Check commit message for version type and bump accordingly
+          COMMIT_MESSAGE="AL-2023 # major: create initial version of random password module"
+          echo "Commit Message: $COMMIT_MESSAGE"
+
           if [[ "$COMMIT_MESSAGE" == *"# major"* ]]; then
             echo "Detected major version bump"
             ((MAJOR++))
