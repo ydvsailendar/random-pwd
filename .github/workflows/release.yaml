@@ -19,6 +19,7 @@ jobs:
 
       - name: Determine next version
         id: bump_version
+        shell: bash
         run: |
           VERSION=${{ env.VERSION }}
           echo "Current Version: $VERSION"
@@ -40,7 +41,7 @@ jobs:
           PATCH=$((PATCH))
 
           # Check commit message for version type and bump accordingly
-          COMMIT_MESSAGE="AL-2023 # major: create initial version of random password module"
+          COMMIT_MESSAGE="${{ github.event.head_commit.message }}"
           echo "Commit Message: $COMMIT_MESSAGE"
 
           if [[ "$COMMIT_MESSAGE" == *"# major"* ]]; then
